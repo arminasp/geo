@@ -4,7 +4,7 @@ from requests import get
 from geograpy import get_place_context
 
 if len(argv) < 2:
-    exit('Usage: python geo.py [inputfile] [outputfile]')
+    exit('Usage: python %s [inputfile] [outputfile]' % argv[0])
 
 input_file_path = argv[1]
 output_file_path = argv[2] if len(argv) > 2 else 'output.csv'
