@@ -17,7 +17,7 @@ with open(input_file_path, 'r', encoding='utf-8') as file:
 
 chunks = [text[i:i + 100000] for i in range(0, len(text), 100000)]
 results = []
-output = []
+output = {}
 
 print('Searching for geo names...')
 
@@ -29,7 +29,7 @@ for chunk in chunks:
             geo_names = get(api_url, {'name': place}).json()
 
             if len(geo_names) > 0:
-                output += geo_names
+                output[chunk.find(place)] = geo_names
                 results.append(place)
                 print('\t%s' % place)
 
@@ -41,8 +41,9 @@ if len(results) > 0:
     with open(output_file_path, 'w', encoding='utf-8', newline='\n') as file:
         writer = csv.writer(file, delimiter='\t')
 
-        for row in output:
-            if row.values():
-                writer.writerow(row.values())
+        for key in sorted(output.keys()):
+            for row in output[key]:
+                if row.values():
+                    writer.writerow(row.values())
 
 print('Exiting...')
