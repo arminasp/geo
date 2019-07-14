@@ -17,11 +17,12 @@ print("Opening input file '%s'..." % input_file_path)
 with open(input_file_path, 'r', encoding='utf-8') as file:
     text = file.read().replace('\n', ' ')
 
-chunks = [text[i:i + 100000] for i in range(0, len(text), 100000)]
+chunk_size = 50000
+chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
 output = {}
 results = []
 
-print("Searching for geo names in '%s' language ..." % language_code)
+print("Searching for geo names in '%s' language..." % language_code)
 
 for chunk in chunks:
     places = get_place_context(text=chunk).countries
